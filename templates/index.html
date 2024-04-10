@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../uploads/LogoTib.png">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialShark</title>
+    <link rel="stylesheet" href="../uploads/index.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-left">
+            <p>SocialShark</p>
+            <img src="../uploads/UtaL.png" class="logo">
+            <img src="../uploads/LogoTib.png" class="logo1">
+            <ul>
+                <li><img src="../uploads/notificacion.png"></li>
+                <li><img src="../uploads/email.png"></li>
+                <li><img src="../uploads/videos.png"></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+
+            <div class="search-box">
+                <img src="../uploads/Buscar.png" alt="">
+                <input type="text" placeholder="Buscar">
+            </div>
+            <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                <img src="../uploads/LogoTib.png">
+            </div>
+
+        </div>
+        <!-------------------------------Settings-Menu-->
+        <div class="settings-menu">
+
+            <div id="dark-btn">
+                <span></span>
+            </div>
+
+
+
+            <div class="settings-menu-inner">
+                <div class="user-profile">
+                    <img src="../uploads/LogoTib.png">
+                    <div>
+                        <p>SocialShark</p>
+                        <a href="/perfil">Ver mi perfil</a>
+                    </div>
+                </div>
+                <hr>
+                <div class="user-profile">
+                    <img src="../uploads/Nueva noticia.png">
+                    <div>
+                        <p>Comentarios</p>
+                        <a href="#">Ayúdanos a mejorar el nuevo diseño</a>
+                    </div>
+                </div>
+                <hr>
+            </div>
+
+        </div>
+
+        <!---------->
+    </nav>
+
+    <div class="container">
+        <!------------Left-sidebar-------------->
+        <div class="left-sidebar">
+            <div class="imp-links">
+                <a href="#"><img src="../uploads/Nueva noticia.png">Home</a>
+                <a href="#"><img src="../uploads/Agregar amigo.png">Amigos</a>
+                <a href="#"><img src="../uploads/Grupos.png">Grupos</a>
+                <a href="#"><img src="../uploads/Marketplace.png">Mercado</a>
+                <a href="#"><img src="../uploads/Video.png">Videos</a>
+                <a href="#"></a>
+            </div>
+            <div class="shortcut-links">
+                <p>Grupos</p>
+                <a href="#"><img src="../uploads/perfil4.png">Desarrolladores de sitios de Internet</a>
+                <a href="#"><img src="../uploads/perfil3.jpg">Curso de diseño web</a>
+                <a href="#"><img src="../uploads/perfil1.jpg">Diseñadores Graficos</a>
+                <a href="#"><img src="../uploads/perfil1.jpg">Expertos en sitios web</a>
+            </div>
+        </div>
+        <!--Main-->
+        <div class="main-content">
+            <div class="story-gallery">
+                <div class="story story1">
+                    <img src="">
+                    <p></p>
+                </div>
+                <div class="story story2">
+                    <img src="../uploads/perfil1.jpg">
+                    <p></p>
+                </div>
+                <div class="story story3">
+                    <img src="../uploads/perfil2.jpg">
+                    <p></p>
+                </div>
+                <div class="story story4">
+                    <img src="../uploads/perfil3.jpg">
+                    <p></p>
+                </div>
+                <div class="story story5">
+                    <img src="../uploads/perfil4.png">
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="write-post-container">
+                <div class="user-profile">
+                    <img src="../uploads/LogoTib.png">
+                    <div>
+                        <p>SocialShark</p>
+                        <small>Publica<i class='bx bxs-chevron-down'></i></small>
+                    </div>
+                </div>
+
+                <div class="post-input-container">
+                    <form id="formulario-publicacion" method="POST" action="/publicaciones"
+                        enctype="multipart/form-data">
+
+                        <textarea type="text" id="titulo" name="titulo" placeholder="Titulo"></textarea>
+                        <textarea rows="3" id="contenido" name="contenido" placeholder="Descripción"></textarea>
+
+                        <div class="add-post-links">
+                            <label for="live-video"><img src="../uploads/Videorojo.png">Video en Vivo</label>
+                            <input type="file" accept="video/*" id="live-video" style="display: none;">
+                            <label for="photo-video"><img src="../uploads/Camera.png">Photo/Video</label>
+                            <input type="file" id="photo-video" name="imagen" style="display: none;">
+                            <input type="radio" id="feeling-activity" class="feeling-activity" name="feeling"
+                                style="display: none;">
+                            <label for="feeling-activity"><img src="../uploads/Carafeliz.png">Feeling/Activity</label>
+                            <button class="" type="submit">Publicar</button>
+                            <div class="feeling-list">
+                                <ul>
+                                    <li><label for="happy">Happy</label><input type="radio" id="happy" name="feeling">
+                                    </li>
+                                    <li><label for="sad">Sad</label><input type="radio" id="sad" name="feeling"></li>
+                                    <li><label for="angry">Angry</label><input type="radio" id="angry" name="feeling">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            {% for publicacion in publicaciones[::-1] %}
+            <div class="post-container" id="publicacion_{{ publicacion._id }}">
+                <div class="post-row">
+                    <div class="user-profile">
+                        <img src="../uploads/LogoTib.png">
+                        {{ publicacion.titulo }}
+                    </div>
+                    <a href="#"><i class='bx bx-dots-vertical-rounded'></i></a>
+                </div>
+                <p class="post-text">{{ publicacion.contenido }}</p>
+                {% if publicacion.imagen %}
+                <img src="{{ url_for('uploaded_file', filename=publicacion.imagen) }}" class="post-img" alt="Imagen">
+                {% endif %}
+                <div class="post-row">
+                    <div class="activity-icons">
+                        <div><img src="../uploads/Likej.png">120</div>
+                        <div><img src="../uploads/conversa.png">45</div>
+                        <div><img src="../uploads/Compartir.png">20</div>
+                    </div>
+                    <button class="eliminar-btn" data-publicacion-id="{{ publicacion._id }}">Eliminar</button>
+                    <button class="actualizar-btn" data-publicacion-id="{{ publicacion._id }}">Actualizar</button>
+                </div>
+                <div id="formulario-{{ publicacion._id }}" style="display: none;">
+                    <form action="{{ url_for('actualizar_publicacion', id_publicacion=publicacion._id) }}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="id_publicacion" value="{{ publicacion._id }}">
+                        <label for="nuevo_titulo">Nuevo Título:</label>
+                        <input type="text" id="nuevo_titulo" name="nuevo_titulo" value="{{ publicacion.titulo }}"><br>
+                                            
+                        <label for="nuevo_contenido">Nuevo Contenido:</label><br>
+                        <textarea id="nuevo_contenido" name="nuevo_contenido" rows="4" cols="50">{{ publicacion.contenido }}</textarea><br>
+                                            
+                        <label for="nueva_imagen">Nueva Imagen:</label>
+                        <input type="file" id="nueva_imagen" name="nueva_imagen"><br>
+                                            
+                        <button type="submit">Actualizar Publicación</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+
+            <button type="button" class="load-more-btn">Load More</button>
+
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function() {
+    $(".eliminar-btn").click(function() {
+        var publicacionId = $(this).data("publicacion-id");
+        $.ajax({
+            type: "POST",
+            url: "/eliminar_publicacion/" + publicacionId,
+            success: function(response) {
+                // Eliminar la publicación del DOM
+                $("#publicacion_" + publicacionId).remove();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+
+        </script>
+        <script>
+            $(document).ready(function() {
+                // Manejar el clic en el botón "Actualizar"
+                $(".actualizar-btn").click(function() {
+                    var publicacionId = $(this).data("publicacion-id");
+                    // Obtener los datos del formulario de actualización
+                    var formData = new FormData($("#formulario-" + publicacionId)[0]);
+                    // Realizar una solicitud AJAX para actualizar la publicación
+                    $.ajax({
+                        type: "POST",
+                        url: "/publicaciones/" + publicacionId + "/actualizar",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            // Si la actualización es exitosa, recargar la página para ver los cambios
+                            location.reload();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                            // Manejar errores de actualización si es necesario
+                        }
+                    });
+                });
+            });
+        </script>
+        
+        <script>
+            // Función para mostrar u ocultar el formulario de actualización
+            function toggleFormulario(id) {
+                var formulario = document.getElementById("formulario-" + id);
+                if (formulario.style.display === "none") {
+                    formulario.style.display = "block";
+                } else {
+                    formulario.style.display = "none";
+                }
+            }
+        
+            // Obtener todos los botones "Actualizar" y agregar un event listener a cada uno
+            var actualizarBtns = document.querySelectorAll(".actualizar-btn");
+            actualizarBtns.forEach(function(btn) {
+                btn.addEventListener("click", function() {
+                    // Obtener el ID de la publicación
+                    var idPublicacion = btn.getAttribute("data-publicacion-id");
+                    // Llamar a la función toggleFormulario con el ID de la publicación
+                    toggleFormulario(idPublicacion);
+                });
+            });
+        </script>
+        
+        
+        <div class="right-sidebar">
+            <div class="sidebar-title">
+                <h4>Eventos</h4>
+                <a href="#"></a>
+            </div>
+
+            <div class="event">
+                <div class="left-event">
+                    <h3>18</h3>
+                    <span>Marzo</span>
+                </div>
+
+                <div class="right-event">
+                    <h4>medios de comunicación social</h4>
+                    <p><i class='bx bx-map'></i>Parque tecnológico Willson</p>
+                    <a href="#">Más Información</a>
+                </div>
+            </div>
+            <div class="event">
+                <div class="left-event">
+                    <h3>22</h3>
+                    <span>Junio</span>
+                </div>
+                <div class="right-event">
+                    <h4>El marketing móvil</h4>
+                    <p><i class='bx bx-map'></i>Parque tecnológico Willson</p>
+                    <a href="#">Más Información</a>
+                </div>
+            </div>
+            <div class="sidebar-title">
+                <h4>Anuncio</h4>
+                <a href="#">Saber más</a>
+            </div>
+            <img src="../uploads/econo.jpg" class="sidebar-ads">
+            <div class="sidebar-title">
+                <h4>Conversación</h4>
+                <a href="#">Chats</a>
+            </div>
+            <div class="online-list">
+                <div class="online">
+                    <img src="../uploads/perfil4.png">
+                </div>
+                <p>Alison Mina</p>
+            </div>
+            <div class="online-list">
+                <div class="online">
+                    <img src="../uploads/perfil2.jpg">
+                </div>
+                <p>Jackson David</p>
+            </div>
+            <div class="online-list">
+                <div class="online">
+                    <img src="../uploads/perfil3.jpg">
+                </div>
+                <p>Alina Garcia</p>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="footer">
+        <p>Copyright 2024 - Easy Tutorials Youtube Channel</p>
+    </div>
+
+    <script src="../uploads/script.js"></script>
+</body>
+
+</html>

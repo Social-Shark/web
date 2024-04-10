@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <link rel="icon" href="../uploads/LogoTib.png">
+    <link rel="stylesheet" href="../uploads/perfil.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        {% if usuario %}
+        <div class="user-image">
+            <!-- Mostrar la foto de perfil actual si existe -->
+            {% if usuario.get('foto_perfil') %}
+            <img src="{{ url_for('uploaded_file', filename=usuario.foto_perfil) }}" alt="Foto de perfil">
+            {% else %}
+            <p></p>
+            {% endif %}
+            <!-- Formulario para subir una nueva foto de perfil -->
+            <form action="/subir_foto_perfil" method="post" enctype="multipart/form-data">
+                <input type="file" name="foto_perfil"><br>
+                <button type="submit">Subir foto de perfil</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="content">
+        {% if usuario %}
+        <!-- Contenido del perfil -->
+        <h3 class="name">{{ usuario.email }}</h3>
+        <p class="username">{{ usuario.username }}</p>
+        <!-- Enlaces sociales y otros detalles del perfil -->
+        {% endif %}
+        <!-- Manejo de caso donde el usuario no está en la base de datos -->
+        {% if not usuario %}
+        <p>Usuario no encontrado</p>
+        {% endif %}
+        <div class="links">
+            <a class="facebook" href="https://www.facebook.com/geeksforgeeks.org/" target="_blank"
+                title="GFG_facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+
+            <a class="git" href="https://github.com/topics/geeksforgeeks" title="GFG_github" target="_blank">
+                <i class="fab fa-github-square"></i>
+            </a>
+
+            <a class="linkedin" href="https://www.geeksforgeeks.org/tag/linkedin/" title="GFG_linkedin"
+                target="_blank">
+                <i class="fab fa-linkedin"></i>
+            </a>
+
+            <a class="insta" href="https://www.instagram.com/geeks_for_geeks/?hl=en" target="_blank"
+                title="GFG_instagram">
+                <i class="fab fa-instagram-square"></i>
+            </a>
+        </div>
+
+        <p class="details">
+            ¡Hola estoy usando SocialShark!
+        </p>
+
+        <a class="effect effect-4" href="#">
+            Saber mas
+        </a>
+    </div>
+
+    <!-- This is link of adding small images
+         which are used in the link section  -->
+    <script src="https://kit.fontawesome.com/704ff50790.js" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
